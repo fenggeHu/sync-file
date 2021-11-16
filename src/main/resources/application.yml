@@ -7,7 +7,7 @@ logging:
 
 file:
   interval: 1000
-  suffix: .java,.xml,.md
+  suffix: .java,.xml,.md,.yaml,.yml,.txt,.kt
   source:
     path: /Users/hujinfeng/test/
 
