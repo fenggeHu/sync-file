@@ -29,7 +29,7 @@ public class SyncFileService {
     @Scheduled(fixedDelayString = "1000")
     public void run() throws IOException {
         Record record = queue.poll();
-        if (null != record) {    // 没有记录休眠
+        while (null != record) {    // 没有记录休眠
             File targetFile = new File(config.getTarget(), record.getPath());
             log.info("from {} to {}", record.getAbsolutePath(), targetFile.getAbsolutePath());
             // 复制文件
@@ -39,8 +39,9 @@ public class SyncFileService {
             } else if (record.getStatus() == Record.Status.D) {
                 FileUtils.delete(targetFile);
             } else {
-                throw new RuntimeException("Not support!");
+                log.error("Not support!");
             }
+            record = queue.poll();
         }
     }
 
