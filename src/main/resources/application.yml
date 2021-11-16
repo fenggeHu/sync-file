@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: syncfile
+
+logging:
+  config: classpath:logback-spring.xml
+
+file:
+  interval: 1000
+  suffix: .java,.xml,.md
+  source:
+    path: /Users/hujinfeng/test/
+
+  target:
+    path: /Users/hujinfeng/test-t/
