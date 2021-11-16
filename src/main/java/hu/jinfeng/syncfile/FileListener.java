@@ -16,19 +16,17 @@ import java.io.File;
 @Slf4j
 @Service
 public class FileListener extends FileAlterationListenerAdaptor {
-    /**
-     * 源目录
-     */
-    @Value("${file.source.path:}")
-    private String source;
     @Autowired
     private SyncFileService syncFileService;
+    @Autowired
+    private Config config;
+
     private int pathIndex;
 
     @PostConstruct
     public void init() {
-        pathIndex = source.length();
-        if (!source.endsWith(File.separator) && !source.endsWith("/")) {
+        pathIndex = config.getSourceAbsolutePath().length();
+        if (!config.getSourceAbsolutePath().endsWith(File.separator) && !config.getSourceAbsolutePath().endsWith("/")) {
             pathIndex += 1;
         }
     }
@@ -39,7 +37,7 @@ public class FileListener extends FileAlterationListenerAdaptor {
     public void onFileCreate(File file) {
         System.out.println("[新建]:" + file.getAbsolutePath());
         log.info("[新建]:" + file.getAbsolutePath());
-        if (file.getAbsolutePath().startsWith(source)) {
+        if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
                     .path(file.getAbsolutePath().substring(pathIndex))
                     .status(Record.Status.C)
@@ -54,7 +52,7 @@ public class FileListener extends FileAlterationListenerAdaptor {
     public void onFileChange(File file) {
         System.out.println("[修改]:" + file.getAbsolutePath());
         log.info("[修改]:" + file.getAbsolutePath());
-        if (file.getAbsolutePath().startsWith(source)) {
+        if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
                     .path(file.getAbsolutePath().substring(pathIndex))
                     .status(Record.Status.U)
@@ -69,7 +67,7 @@ public class FileListener extends FileAlterationListenerAdaptor {
     public void onFileDelete(File file) {
         System.out.println("[删除]:" + file.getAbsolutePath());
         log.info("[删除]:" + file.getAbsolutePath());
-        if (file.getAbsolutePath().startsWith(source)) {
+        if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
                     .path(file.getAbsolutePath().substring(pathIndex))
                     .status(Record.Status.D)

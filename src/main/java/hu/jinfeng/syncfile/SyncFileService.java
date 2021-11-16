@@ -2,6 +2,7 @@ package hu.jinfeng.syncfile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 @Service
 public class SyncFileService {
-    /**
-     * 目标目录
-     */
-    @Value("${file.target.path:}")
-    private String target;
+    @Autowired
+    private Config config;
+
 
     private Queue<Record> queue = new LinkedBlockingQueue<>();
 
@@ -31,7 +30,7 @@ public class SyncFileService {
     public void run() throws IOException {
         Record record = queue.poll();
         if (null != record) {    // 没有记录休眠
-            File targetFile = new File(target, record.getPath());
+            File targetFile = new File(config.getTarget(), record.getPath());
             log.info("from {} to {}", record.getAbsolutePath(), targetFile.getAbsolutePath());
             // 复制文件
             if (record.getStatus() == Record.Status.C || record.getStatus() == Record.Status.U) {

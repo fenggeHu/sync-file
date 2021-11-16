@@ -26,56 +26,39 @@ import java.io.File;
 public class FileMonitor {
     @Autowired
     private FileListener fileListener;
-    /**
-     * 源目录
-     */
-    @Value("${file.source.path:}")
-    private String source;
-    /**
-     * 目标目录
-     */
-    @Value("${file.target.path:}")
-    private String target;
-    /**
-     * 文件类型
-     */
-    @Value("${file.suffix:}")
-    private String[] suffix;
-    /**
-     * 检查时间 - ms
-     */
-    @Value("${file.interval:1000}")
-    private Long interval;
+    @Autowired
+    private Config config;
+
 
     @PostConstruct
     public void init() throws Exception {
-        File sourceFile = new File(source);
+        File sourceFile = config.getSourcePath();
         if (!sourceFile.exists()) {
-            throw new RuntimeException("源目录不存在：" + source);
+            throw new RuntimeException("源目录不存在：" + config.getSource());
         } else {
             if (!sourceFile.isDirectory()) {
-                throw new RuntimeException("源目标不是目录：" + source);
+                throw new RuntimeException("源目标不是目录：" + config.getSource());
             }
         }
-        File targetFile = new File(target);
+        File targetFile = new File(config.getTarget());
         if (!targetFile.exists()) {
-            log.warn("目标目录不存在" + target);
+            log.warn("目标目录不存在" + config.getTarget());
             if (targetFile.mkdirs()) {
-                log.warn("创建目录：" + target);
+                log.warn("创建目录：" + config.getTarget());
             } else {
-                throw new RuntimeException("创建目标目录失败：" + target);
+                throw new RuntimeException("创建目标目录失败：" + config.getTarget());
             }
         } else {
             if (!targetFile.isDirectory()) {
-                throw new RuntimeException("目标不是目录：" + target);
+                throw new RuntimeException("目标不是目录：" + config.getTarget());
             }
         }
 
         // 创建过滤器 - 只监测可见文件
         IOFileFilter directories = FileFilterUtils.and(FileFilterUtils.directoryFileFilter(), HiddenFileFilter.VISIBLE);
-        IOFileFilter[] suffixFilters = new IOFileFilter[suffix.length];
-        for (int i = 0; i < suffix.length; i++) {
-            suffixFilters[i] = FileFilterUtils.suffixFileFilter(suffix[i]);
+        IOFileFilter[] suffixFilters = new IOFileFilter[config.getSuffix().length];
+        for (int i = 0; i < config.getSuffix().length; i++) {
+            suffixFilters[i] = FileFilterUtils.suffixFileFilter(config.getSuffix()[i]);
         }
         IOFileFilter suffixFilter = FileFilterUtils.or(suffixFilters);
         IOFileFilter files = FileFilterUtils.and(FileFilterUtils.fileFileFilter(), suffixFilter);
@@ -86,7 +69,7 @@ public class FileMonitor {
         //FileAlterationObserver observer = new FileAlterationObserver(new File(sourcePath));
         observer.addListener(fileListener);
         //创建文件变化监听器
-        FileAlterationMonitor monitor = new FileAlterationMonitor(interval, observer);
+        FileAlterationMonitor monitor = new FileAlterationMonitor(config.getInterval(), observer);
         // 开始监控
         monitor.start();
     }
