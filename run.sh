@@ -1,10 +1,9 @@
 #!/bin/sh
 
-JAR_FILE=/d/.m2/repository/hu/jinfeng/sync-file/1.0-SNAPSHOT/sync-file-1.0-SNAPSHOT.jar
+JAR_FILE=/Users/hujinfeng/.m2/repository/hu/jinfeng/sync-file/1.0-SNAPSHOT/sync-file-1.0-SNAPSHOT.jar
 
 #JDK所在路径
-JAVA_HOME="/d/java"
-#JAVA_HOME="/usr/local/java"
+JAVA_HOME="/usr/local/java"
 
 #jvm虚拟机启动参数
 JAVA_OPTS="-server -Xms128M -Xmx1G -XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true"
