@@ -22,8 +22,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SyncFileService {
     @Autowired
     private Config config;
-
-
+    /**
+     * 文件队列
+     */
     private Queue<Record> queue = new LinkedBlockingQueue<>();
 
     @Scheduled(fixedDelayString = "1000")

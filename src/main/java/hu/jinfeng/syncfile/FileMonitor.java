@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * * 文件变化监听器
@@ -53,7 +54,7 @@ public class FileMonitor {
                 throw new RuntimeException("目标不是目录：" + config.getTarget());
             }
         }
-
+        log.info("sync file suffix: {}", Arrays.toString(config.getSuffix()));
         // 创建过滤器 - 只监测可见文件
         IOFileFilter directories = FileFilterUtils.and(FileFilterUtils.directoryFileFilter(), HiddenFileFilter.VISIBLE);
         IOFileFilter[] suffixFilters = new IOFileFilter[config.getSuffix().length];
@@ -65,8 +66,6 @@ public class FileMonitor {
         IOFileFilter filter = FileFilterUtils.or(directories, files);
         // 使用过滤器
         FileAlterationObserver observer = new FileAlterationObserver(sourceFile, filter);
-        //不使用过滤器
-        //FileAlterationObserver observer = new FileAlterationObserver(new File(sourcePath));
         observer.addListener(fileListener);
         //创建文件变化监听器
         FileAlterationMonitor monitor = new FileAlterationMonitor(config.getInterval(), observer);

@@ -19,12 +19,16 @@ public class Record {
      */
     private String absolutePath;
     /**
+     * 是否文件夹/目录
+     */
+    private boolean directory;
+    /**
      * 记录状态
      */
     private Status status;
 
     /**
-     * 变化类型
+     * 文件变动状态
      */
     enum Status {
         C("增"), D("删"), U("改");

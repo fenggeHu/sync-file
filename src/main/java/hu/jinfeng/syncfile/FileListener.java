@@ -35,7 +35,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 文件创建执行
      */
     public void onFileCreate(File file) {
-        System.out.println("[新建]:" + file.getAbsolutePath());
         log.info("[新建]:" + file.getAbsolutePath());
         if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
@@ -50,7 +49,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 文件创建修改
      */
     public void onFileChange(File file) {
-        System.out.println("[修改]:" + file.getAbsolutePath());
         log.info("[修改]:" + file.getAbsolutePath());
         if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
@@ -65,7 +63,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 文件删除
      */
     public void onFileDelete(File file) {
-        System.out.println("[删除]:" + file.getAbsolutePath());
         log.info("[删除]:" + file.getAbsolutePath());
         if (file.getAbsolutePath().startsWith(config.getSourceAbsolutePath())) {
             Record record = Record.builder().absolutePath(file.getAbsolutePath())
@@ -80,7 +77,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 目录创建
      */
     public void onDirectoryCreate(File directory) {
-        System.out.println("[新建]:" + directory.getAbsolutePath());
         log.info("[新建]:" + directory.getAbsolutePath());
     }
 
@@ -88,7 +84,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 目录修改
      */
     public void onDirectoryChange(File directory) {
-        System.out.println("[修改]:" + directory.getAbsolutePath());
         log.info("[修改]:" + directory.getAbsolutePath());
     }
 
@@ -96,7 +91,6 @@ public class FileListener extends FileAlterationListenerAdaptor {
      * 目录删除
      */
     public void onDirectoryDelete(File directory) {
-        System.out.println("[删除]:" + directory.getAbsolutePath());
         log.info("[删除]:" + directory.getAbsolutePath());
     }
 
