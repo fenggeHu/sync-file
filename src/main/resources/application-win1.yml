@@ -1,13 +1,13 @@
-spring:
-  application:
-    name: syncfile
-
-logging:
-  config: classpath:logback-spring.xml
+#spring:
+#  application:
+#    name: syncfile
+#
+#logging:
+#  config: classpath:logback-spring.xml
 
 file:
   interval: 1000
-  suffix: .java,.xml,.md,.zip,.yaml,.yml,.txt,.kt
+#  suffix: .java,.xml,.md,.zip,.yaml,.yml,.txt,.kt
   source:
     path: D:/sync/
 
