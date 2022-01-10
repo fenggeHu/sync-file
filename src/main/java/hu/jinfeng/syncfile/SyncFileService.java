@@ -53,6 +53,15 @@ public class SyncFileService {
      */
     public void sync(Record record) {
         if (null == record) return;
+        // 排除一些忽略的文件
+        // FIXME 暂时简单粗暴的做字符串匹配
+        for (String ignore : config.getIgnore()) {
+            if (record.getAbsolutePath().contains(ignore)) {
+                log.warn("ignore file: " + record.getAbsolutePath());
+                return;
+            }
+        }
+
         queue.add(record);
     }
 

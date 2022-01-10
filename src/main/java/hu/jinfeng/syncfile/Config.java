@@ -43,6 +43,11 @@ public class Config {
     @Value("${file.suffix:}")
     private String[] suffix;
     /**
+     * 忽略的路径或文件
+     */
+    @Value("${file.ignore:}")
+    private String[] ignore;
+    /**
      * 检查时间 - ms
      */
     @Value("${file.interval:1000}")
