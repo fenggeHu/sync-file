@@ -7,7 +7,7 @@ logging:
 
 file:
   interval: 1000
-  suffix: .java,.xml,.md,.zip,.yaml,.yml,.properties,.txt,.kt,.sh,.bat,.png,.gif,.bmp,.jpg,.svg,.webp,.tif,.apng,.pdf
+  suffix: .java,.sql,.xml,.md,.zip,.yaml,.yml,.properties,.txt,.kt,.sh,.bat,.png,.gif,.bmp,.jpg,.svg,.webp,.tif,.apng,.pdf
   ignore: .idea
   source:
     path: /Users/hujinfeng/test/
